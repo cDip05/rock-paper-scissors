@@ -36,21 +36,3 @@ function playRound(humanChoice, computerChoice) {
         return console.log(`You lose, computer chose ${computerChoice}. The scores are, Player: ${humanScore} Computer: ${computerScore}`)
     }
 }
-
-function playGame() {
-    for (let i = 0; i < 5; i++) {
-        human = getHumanChoice();
-        computer = getComputerChoice();
-        playRound(human, computer)
-    }
-    if (humanScore > computerScore) {
-        return console.log(`Congratulations you beat the computer! Final scores were Player: ${humanScore} Computer: ${computerScore}`)
-    } else if (humanScore === computerScore) {
-        return console.log("Game has ended in a tie")
-    } 
-    else {
-        return console.log(`You lose, the final scores were  Player: ${humanScore} Computer: ${computerScore}`)
-    }
-}
-
-playGame()
