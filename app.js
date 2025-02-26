@@ -1,21 +1,54 @@
 let humanScore = 0
 let computerScore = 0
 
-function getComputerChoice() {
-    let randomChoice = Math.random()
-    if (0 <= randomChoice && randomChoice < (1 / 3)) {
-        return 'Rock'
-    } else if ((1 / 3) <= randomChoice && randomChoice < (2 / 3)) {
-        return 'Scissors'
-    } else {
-        return 'Paper'
-    }
+const playerContainer = document.querySelector(".player--selection")
+const playerContent = document.createElement("div")
+const computerContainer = document.querySelector(".computer--selection")
+const computerContent = document.createElement("div")
+const showButtons = document.querySelectorAll(".hidden")
+
+const playerButtons = document.querySelectorAll(".btn--player")
+playerButtons.forEach((btn) => {
+    btn.addEventListener("click", function (e) {
+        getPlayerChoice(e),
+        getComputerChoice()
+    })
+})
+
+
+const startButton = document.querySelector(".start--game") 
+startButton.onclick = () => startNewGame();
+
+function getPlayerChoice(event) {
+    const playerChoice = event.target.textContent
+    playerContent.classList.add("display--player")
+    playerContent.textContent = playerChoice
+    playerContainer.appendChild(playerContent)
+    return playerChoice
 }
 
-function getHumanChoice() {
-    let humanChoice = prompt("Rock, paper or scissors? : ");
-    return humanChoice
+function getComputerChoice() {
+    const choices = ["Rock", "Paper", "Scissors"]
+    const randomChoice = Math.floor(Math.random() * choices.length)
+    const computerChoice = choices[randomChoice]
+    
+    computerContent.classList.add("display--computer")
+    computerContent.textContent = computerChoice
+    computerContainer.appendChild(computerContent)
+
+    return computerChoice
 }
+
+function startNewGame() {
+    humanScore = 0
+    computerScore = 0
+    startButton.style.display = 'none'
+    showButtons.forEach((btn) => {
+        btn.classList.remove('hidden')
+    })
+}
+
+
 
 function playRound(humanChoice, computerChoice) {
     humanChoice = humanChoice.toLowerCase()
