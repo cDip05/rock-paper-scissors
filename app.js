@@ -5,16 +5,17 @@ const playerContainer = document.querySelector(".player--selection")
 const playerContent = document.createElement("div")
 const computerContainer = document.querySelector(".computer--selection")
 const computerContent = document.createElement("div")
+const scoresContainer = document.querySelector(".display--scores")
+const scoresContent = document.createElement("div")
 const showButtons = document.querySelectorAll(".hidden")
+const result = document.querySelector(".result")
 
 const playerButtons = document.querySelectorAll(".btn--player")
 playerButtons.forEach((btn) => {
     btn.addEventListener("click", function (e) {
-        getPlayerChoice(e),
-        getComputerChoice()
+        playRound(getPlayerChoice(e),getComputerChoice())
     })
 })
-
 
 const startButton = document.querySelector(".start--game") 
 startButton.onclick = () => startNewGame();
@@ -42,30 +43,47 @@ function getComputerChoice() {
 function startNewGame() {
     humanScore = 0
     computerScore = 0
+    result.innerHTML = 'First to 5 points wins!'
     startButton.style.display = 'none'
+    scoresContent.textContent = `Player: ${humanScore} Computer: ${computerScore}`
+    scoresContainer.appendChild(scoresContent)
     showButtons.forEach((btn) => {
         btn.classList.remove('hidden')
     })
 }
 
-
-
 function playRound(humanChoice, computerChoice) {
     humanChoice = humanChoice.toLowerCase()
     computerChoice = computerChoice.toLowerCase()
-    if (humanChoice === computerChoice) {
-        return console.log("This is a tie")
-    }
     const winConditions = {
         rock: 'scissors',
         paper: 'rock',
         scissors: 'paper'
     };
-    if (winConditions[humanChoice] === computerChoice) {
+
+    if (humanChoice === computerChoice) {
+        result.innerHTML = 'This round is a tie'
+    } else if (winConditions[humanChoice] === computerChoice) {
         humanScore += 1
-        return console.log(`You win, computer chose ${computerChoice}. The scores are, Player: ${humanScore} Computer: ${computerScore}`)
+        result.innerHTML = 'You win this round!'
     } else {
         computerScore += 1
-        return console.log(`You lose, computer chose ${computerChoice}. The scores are, Player: ${humanScore} Computer: ${computerScore}`)
+        result.innerHTML = 'You lose this round'
+    }
+    scoresContent.textContent = `Player: ${humanScore} Computer: ${computerScore}`
+    scoresContainer.appendChild(scoresContent)
+    
+    if (humanScore == 5 || computerScore == 5) {
+        result.innerHTML = "Start a new game"
+        startButton.style.display = 'block'
+        showButtons.forEach((btn) => {
+            btn.classList.add('hidden')
+        })
+        if (humanScore == 5) {
+            scoresContent.textContent = "You won!"
+        } else {
+            scoresContent.textContent = "You lost!"
+        }
+        scoresContainer.appendChild(scoresContent)
     }
 }
